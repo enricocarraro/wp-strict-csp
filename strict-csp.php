@@ -32,10 +32,10 @@ function add_csp_nonce($tag, $handle)
 {
     $nonce = get_nonce();
     if (strpos($tag, ' nonce="') === false) {
-        return str_replace('<script ', '<script nonce="' . $nonce . '" ', $tag);
+        $tag = str_replace('<script ', '<script nonce="' . $nonce . '" ', $tag);
     } else if (substr_count($tag, ' nonce="') !== substr_count($tag, '<script')) {
         $tag = str_replace(' nonce="' . $nonce . '"', '', $tag);
-        return str_replace('<script ', '<script nonce="' . $nonce . '" ', $tag);
+        $tag = str_replace('<script ', '<script nonce="' . $nonce . '" ', $tag);
     }
     return $tag;
 }
@@ -59,7 +59,7 @@ function get_nonce()
         require_once(ABSPATH . 'wp-includes/class-phpass.php');
         $hasher = new PasswordHash(8, false);
         $nonce = md5($hasher->get_random_bytes(100, false));
-        $GLOBALS['csp_nonce'] = esc_attr($nonce).'5';
+        $GLOBALS['csp_nonce'] = esc_attr($nonce);
     }
     return $GLOBALS['csp_nonce'];
 }
