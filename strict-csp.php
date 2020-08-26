@@ -45,7 +45,7 @@ function add_csp_nonce( $tag, $handle )
 {
     $nonce = esc_attr( get_nonce() );
     $pattern = '/<script\b(?![^>]*\b' . $nonce . '\b)[^>]*/si';
-    $replacement = sprintf('${0} nonce="%s"', $nonce );
+    $replacement = sprintf( '${0} nonce="%s"', $nonce );
     return preg_replace( $pattern, $replacement, $tag );
 }
 
@@ -55,7 +55,7 @@ function get_nonce()
 {
     if ( !isset( $GLOBALS['csp_nonce'] ) ) {
         require_once( ABSPATH . 'wp-includes/class-phpass.php' );
-        $hasher = new PasswordHash( 8, /* portable_hashes */ false );
+        $hasher = new PasswordHash( 8, /* portable_hashes= */ false );
         $GLOBALS['csp_nonce'] = md5( $hasher->get_random_bytes( 100 ) );
     }
     return $GLOBALS['csp_nonce'];
