@@ -22,8 +22,8 @@
  // Inject nonces only in the admin area
 if ( is_admin() ) {
     add_filter( 'inline_script_attributes', function ( $attr ) {
-        if ( strpos( $attr, ' nonce="' ) === false ) {
-            $attr .= sprintf( ' nonce="%s"', esc_attr( get_nonce() ) );
+        if ( ! array_key_exists('nonce', $attr) ) {
+            $attr['nonce'] = esc_attr( get_nonce() );
         }
         return $attr;
     } );
